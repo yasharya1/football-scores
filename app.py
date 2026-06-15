@@ -9,6 +9,7 @@ import json
 import os
 import threading
 import urllib.request
+from datetime import datetime, timezone
 
 import rumps
 
@@ -114,6 +115,14 @@ def get_flag(abbr, league):
 
 # ─── ESPN API ─────────────────────────────────────────────────────────────────
 
+def _local_time(utc_str):
+    try:
+        utc_dt = datetime.fromisoformat(utc_str.replace("Z", "+00:00"))
+        local_dt = utc_dt.astimezone()
+        return local_dt.strftime("%-I:%M %p")
+    except Exception:
+        return "TBD"
+
 def fetch_league(slug):
     url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{slug}/scoreboard"
     try:
@@ -132,6 +141,10 @@ def parse_events(data, label):
         st    = comp["status"]["type"]
         ha    = home.get("team", {}).get("abbreviation", "?")
         aa    = away.get("team", {}).get("abbreviation", "?")
+        state = st.get("state", "")
+        detail = st.get("shortDetail", "")
+        if state == "pre":
+            detail = _local_time(event.get("date", ""))
         events.append({
             "league": label,
             "home":   ha,
@@ -140,8 +153,8 @@ def parse_events(data, label):
             "aflag":  get_flag(aa, label),
             "hscore": home.get("score", ""),
             "ascore": away.get("score", ""),
-            "state":  st.get("state", ""),
-            "detail": st.get("shortDetail", ""),
+            "state":  state,
+            "detail": detail,
         })
     return events
 
