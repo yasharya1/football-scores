@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# py2app build output
+build/
+dist/
+
+# macOS
+.DS_Store
+
+# Virtual environments
+venv/
+.venv/
+
+# Editor
+.vscode/
+.idea/
