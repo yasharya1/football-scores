@@ -204,12 +204,17 @@ class FootballApp(rumps.App):
                 s.setdefault(k, v)
             return s
         except Exception:
-            return copy.deepcopy(DEFAULT_SETTINGS)
+            s = copy.deepcopy(DEFAULT_SETTINGS)
+            self._write_settings(s)
+            return s
 
-    def _save_settings(self):
+    def _write_settings(self, s):
         os.makedirs(os.path.dirname(SETTINGS_PATH), exist_ok=True)
         with open(SETTINGS_PATH, "w") as f:
-            json.dump(self.settings, f, indent=2)
+            json.dump(s, f, indent=2)
+
+    def _save_settings(self):
+        self._write_settings(self.settings)
 
     # ── Data ──────────────────────────────────────────────────────────────────
 
