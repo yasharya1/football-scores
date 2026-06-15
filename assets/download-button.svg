@@ -45,18 +45,10 @@
   </g>
 
   <!-- Main label -->
-  <text x="450" y="36"
+  <text x="450" y="52"
         font-family="-apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif"
-        font-size="24" font-weight="800" fill="white"
-        text-anchor="middle" letter-spacing="-0.3">
+        font-size="32" font-weight="800" fill="white"
+        text-anchor="middle" letter-spacing="-0.5">
     Download Topbins for macOS
-  </text>
-
-  <!-- Subtitle -->
-  <text x="450" y="61"
-        font-family="-apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif"
-        font-size="12" font-weight="500" fill="rgba(255,255,255,0.75)"
-        text-anchor="middle" letter-spacing="1.5">
-    FREE  ·  NO SIGN-UP  ·  NO API KEY
   </text>
 </svg>
