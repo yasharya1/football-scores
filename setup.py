@@ -9,6 +9,7 @@ from setuptools import setup
 APP     = ["app.py"]
 OPTIONS = {
     "argv_emulation": False,
+    "iconfile": "icon.icns",
     "plist": {
         "LSUIElement": True,
         "CFBundleName": "Topbins",
