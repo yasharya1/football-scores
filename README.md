@@ -2,6 +2,8 @@
 
 Live football scores in your macOS menubar. Free, no API key, no subscription.
 
+[![Download for macOS](https://img.shields.io/github/v/release/yasharya1/topbins?label=Download%20for%20macOS&style=for-the-badge&logo=apple&color=black)](https://github.com/yasharya1/topbins/releases/latest/download/Topbins.zip)
+
 **Data:** ESPN public API  
 **Leagues:** Premier League · La Liga · Bundesliga · Serie A · Ligue 1 · UCL · World Cup
 
