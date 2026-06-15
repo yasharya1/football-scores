@@ -1,32 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="90" viewBox="0 0 800 90">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00FF85"/>
-      <stop offset="100%" stop-color="#00D084"/>
+    <linearGradient id="pitch" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#1a6b1a"/>
+      <stop offset="100%" stop-color="#217321"/>
     </linearGradient>
+    <clipPath id="btn">
+      <rect width="800" height="90" rx="16"/>
+    </clipPath>
   </defs>
 
-  <!-- Button background -->
-  <rect width="800" height="90" rx="16" fill="url(#bg)"/>
+  <!-- Pitch background -->
+  <rect width="800" height="90" rx="16" fill="url(#pitch)"/>
 
-  <!-- Custom download arrow: shaft + head + base line -->
-  <rect x="52" y="18" width="10" height="28" rx="5" fill="#0A1A0A"/>
-  <polygon points="38,42 76,42 57,64" fill="#0A1A0A"/>
-  <rect x="34" y="67" width="44" height="6" rx="3" fill="#0A1A0A"/>
+  <!-- Grass stripes -->
+  <g clip-path="url(#btn)" opacity="0.18">
+    <rect x="0"   y="0" width="57" height="90" fill="#ffffff"/>
+    <rect x="114" y="0" width="57" height="90" fill="#ffffff"/>
+    <rect x="228" y="0" width="57" height="90" fill="#ffffff"/>
+    <rect x="342" y="0" width="57" height="90" fill="#ffffff"/>
+    <rect x="456" y="0" width="57" height="90" fill="#ffffff"/>
+    <rect x="570" y="0" width="57" height="90" fill="#ffffff"/>
+    <rect x="684" y="0" width="57" height="90" fill="#ffffff"/>
+  </g>
+
+  <!-- Pitch centre circle (decorative, right side) -->
+  <circle cx="730" cy="45" r="55" fill="none" stroke="white" stroke-width="1.5" opacity="0.15"/>
+  <line x1="730" y1="0" x2="730" y2="90" stroke="white" stroke-width="1.5" opacity="0.15"/>
+
+  <!-- Football -->
+  <g transform="translate(62, 45)">
+    <!-- Shadow -->
+    <ellipse cx="2" cy="30" rx="22" ry="5" fill="black" opacity="0.25"/>
+    <!-- White ball -->
+    <circle r="26" fill="white"/>
+    <!-- Black pentagon patches — classic football pattern -->
+    <path d="M0,-14 L13,-5 L8,11 L-8,11 L-13,-5 Z" fill="#111"/>
+    <path d="M0,-14 L-13,-5 L-24,-16 L-12,-27 L2,-25 Z" fill="#111"/>
+    <path d="M0,-14 L13,-5 L25,-14 L16,-26 L2,-25 Z" fill="#111"/>
+    <path d="M8,11 L-8,11 L-10,24 L4,29 L17,22 Z" fill="#111"/>
+    <path d="M-13,-5 L-24,-16 L-29,0 L-22,13 L-10,10 Z" fill="#111"/>
+    <path d="M13,-5 L11,10 L22,13 L29,0 L24,-16 Z" fill="#111"/>
+    <!-- Ball outline -->
+    <circle r="26" fill="none" stroke="#ccc" stroke-width="0.8"/>
+  </g>
 
   <!-- Main label -->
-  <text x="430" y="38"
+  <text x="450" y="36"
         font-family="-apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif"
-        font-size="24" font-weight="800" fill="#0A1A0A"
+        font-size="24" font-weight="800" fill="white"
         text-anchor="middle" letter-spacing="-0.3">
     Download Topbins for macOS
   </text>
 
   <!-- Subtitle -->
-  <text x="430" y="63"
+  <text x="450" y="61"
         font-family="-apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif"
-        font-size="13" font-weight="500" fill="#1A3A1A"
-        text-anchor="middle" letter-spacing="1.2">
-    FREE · NO SIGN-UP · NO API KEY
+        font-size="12" font-weight="500" fill="rgba(255,255,255,0.75)"
+        text-anchor="middle" letter-spacing="1.5">
+    FREE  ·  NO SIGN-UP  ·  NO API KEY
   </text>
 </svg>
