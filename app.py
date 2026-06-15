@@ -38,7 +38,16 @@ SETTINGS_PATH = os.path.expanduser("~/.config/topbins/settings.json")
 DEFAULT_SETTINGS = {
     "leagues":         {lbl: (lbl == "World Cup") for _, lbl in ALL_LEAGUES},
     "refresh_seconds": 60,
+    "extra_stats":     False,
 }
+
+EXTRA_STATS = [
+    ("possessionPct",  "Possession"),
+    ("totalShots",     "Shots"),
+    ("shotsOnTarget",  "On Target"),
+    ("wonCorners",     "Corners"),
+    ("foulsCommitted", "Fouls"),
+]
 
 # ─── Flags ────────────────────────────────────────────────────────────────────
 
@@ -145,16 +154,21 @@ def parse_events(data, label):
         detail = st.get("shortDetail", "")
         if state == "pre":
             detail = _local_time(event.get("date", ""))
+        def stats_dict(side):
+            return {s["name"]: s["displayValue"] for s in side.get("statistics", [])}
+
         events.append({
-            "league": label,
-            "home":   ha,
-            "away":   aa,
-            "hflag":  get_flag(ha, label),
-            "aflag":  get_flag(aa, label),
-            "hscore": home.get("score", ""),
-            "ascore": away.get("score", ""),
-            "state":  state,
-            "detail": detail,
+            "league":      label,
+            "home":        ha,
+            "away":        aa,
+            "hflag":       get_flag(ha, label),
+            "aflag":       get_flag(aa, label),
+            "hscore":      home.get("score", ""),
+            "ascore":      away.get("score", ""),
+            "state":       state,
+            "detail":      detail,
+            "home_stats":  stats_dict(home),
+            "away_stats":  stats_dict(away),
         })
     return events
 
@@ -168,6 +182,14 @@ def fmt_fixture(m):
 
 def fmt_result(m):
     return f"{m['hflag']}{m['home']} {m['hscore']}-{m['ascore']} {m['aflag']}{m['away']}"
+
+def fmt_stat_rows(m):
+    rows = []
+    for key, label in EXTRA_STATS:
+        hv = m["home_stats"].get(key, "-")
+        av = m["away_stats"].get(key, "-")
+        rows.append(f"     {str(hv):>7}  {label:^12}  {str(av):<7}")
+    return rows
 
 # ─── App ──────────────────────────────────────────────────────────────────────
 
@@ -267,6 +289,9 @@ class FootballApp(rumps.App):
             add("🟢  LIVE")
             for m in live:
                 add(f"     {fmt_score(m)}")
+                if self.settings.get("extra_stats", False):
+                    for row in fmt_stat_rows(m):
+                        add(row)
             sep()
 
         if upcoming:
@@ -305,6 +330,10 @@ class FootballApp(rumps.App):
             rate_menu.add(item)
         settings.add(rate_menu)
 
+        extra_stats_item = rumps.MenuItem("Extra Stats", callback=self._toggle_extra_stats)
+        extra_stats_item.state = 1 if self.settings.get("extra_stats", False) else 0
+        settings.add(extra_stats_item)
+
         items.append(settings)
         sep()
         add("Quit", callback=lambda _: rumps.quit_application())
@@ -324,6 +353,13 @@ class FootballApp(rumps.App):
         self.settings["leagues"][lbl] = not self.settings["leagues"].get(lbl, False)
         self._save_settings()
         threading.Thread(target=self._fetch, daemon=True).start()
+
+    def _toggle_extra_stats(self, sender):
+        self.settings["extra_stats"] = not self.settings.get("extra_stats", False)
+        self._save_settings()
+        with self._lock:
+            events = list(self._events)
+        self._redraw(events)
 
     def _set_refresh_rate(self, sender):
         secs = next((s for s, l in REFRESH_OPTIONS if l == sender.title), 60)
