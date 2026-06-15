@@ -37,6 +37,7 @@ Click the ⚽ icon → **⚙ Settings**
 | Refresh Rate | 1 minute | How often scores update (15s · 30s · 1 min · 5 min · 10 min) |
 | Extra Stats | On | Live match stats table: possession, shots, on target, corners, fouls |
 | Show Locations | Off | Adds venue city to each match row |
+| Dunder Mifflin Mode | Off | Disguises live scores as office activity — `26' Emails \| 00 Calls` instead of the real scoreline. Popup panel unchanged. |
 
 Settings are saved automatically to `~/.config/topbins/settings.json`.
 
