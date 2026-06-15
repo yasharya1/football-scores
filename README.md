@@ -20,10 +20,7 @@ Live football scores in your macOS menubar. Free, no API key, no subscription.
 1. Download `Topbins.zip` from [Releases](../../releases/latest)
 2. Unzip it — `Topbins.app` appears
 3. Drag `Topbins.app` to `/Applications`
-4. **Right-click** the app → **Open** → **Open** (required once to bypass macOS Gatekeeper)
-5. The ⚽ icon appears in your menubar
-
-> macOS blocks apps from unidentified developers by default. Right-click → Open bypasses this permanently for Topbins.
+4. Open it — the ⚽ icon appears in your menubar
 
 ---
 
