@@ -12,6 +12,11 @@ import urllib.request
 from datetime import datetime, timezone
 
 import rumps
+from AppKit import (
+    NSMutableAttributedString, NSMutableParagraphStyle, NSTextTab,
+    NSParagraphStyleAttributeName, NSForegroundColorAttributeName,
+    NSColor, NSFont, NSFontAttributeName,
+)
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -35,10 +40,29 @@ REFRESH_OPTIONS = [
 
 SETTINGS_PATH = os.path.expanduser("~/.config/topbins/settings.json")
 
+# Set to True to inject a fake live match for testing extra stats
+DEBUG_MOCK = True
+
+MOCK_EVENT = {
+    "league": "World Cup",
+    "home": "ENG", "away": "BRA",
+    "hflag": "🇬🇧", "aflag": "🇧🇷",
+    "hscore": "1", "ascore": "1",
+    "state": "in", "detail": "67'",
+    "home_stats": {
+        "possessionPct": "54.3", "totalShots": "12",
+        "shotsOnTarget": "5", "wonCorners": "6", "foulsCommitted": "8",
+    },
+    "away_stats": {
+        "possessionPct": "45.7", "totalShots": "9",
+        "shotsOnTarget": "3", "wonCorners": "3", "foulsCommitted": "11",
+    },
+}
+
 DEFAULT_SETTINGS = {
     "leagues":         {lbl: (lbl == "World Cup") for _, lbl in ALL_LEAGUES},
     "refresh_seconds": 60,
-    "extra_stats":     False,
+    "extra_stats":     True,
 }
 
 EXTRA_STATS = [
@@ -183,13 +207,34 @@ def fmt_fixture(m):
 def fmt_result(m):
     return f"{m['hflag']}{m['home']} {m['hscore']}-{m['ascore']} {m['aflag']}{m['away']}"
 
-def fmt_stat_rows(m):
-    rows = []
+# Tab stop positions (points) for the stats table
+_TAB_VAL1 = 125  # home value column
+_TAB_VAL2 = 185  # away value column
+
+def _table_item(text, muted=False):
+    """NSMenuItem with attributed string for pixel-perfect tab-stop alignment."""
+    para = NSMutableParagraphStyle.new()
+    para.setTabStops_([
+        NSTextTab.alloc().initWithType_location_(2, _TAB_VAL1),  # 2 = NSCenterTabStopType
+        NSTextTab.alloc().initWithType_location_(2, _TAB_VAL2),
+    ])
+    attrs = {NSParagraphStyleAttributeName: para}
+    if muted:
+        attrs[NSForegroundColorAttributeName] = NSColor.secondaryLabelColor()
+    attr_str = NSMutableAttributedString.alloc().initWithString_attributes_(text, attrs)
+    item = rumps.MenuItem("")
+    item._menuitem.setAttributedTitle_(attr_str)
+    item._menuitem.setEnabled_(False)
+    return item
+
+def stat_table_items(m):
+    items = []
+    # Stat rows
     for key, label in EXTRA_STATS:
         hv = m["home_stats"].get(key, "-")
         av = m["away_stats"].get(key, "-")
-        rows.append(f"     {label:<14}{hv} · {av}")
-    return rows
+        items.append(_table_item(f"  {label}\t{hv}\t{av}"))
+    return items
 
 # ─── App ──────────────────────────────────────────────────────────────────────
 
@@ -250,6 +295,8 @@ class FootballApp(rumps.App):
         events = []
         for slug, lbl in active:
             events.extend(parse_events(fetch_league(slug), lbl))
+        if DEBUG_MOCK:
+            events.insert(0, MOCK_EVENT)
         with self._lock:
             self._events = events
         self._dirty = True
@@ -288,10 +335,18 @@ class FootballApp(rumps.App):
         if live:
             add("🟢  LIVE")
             for m in live:
-                add(f"     {fmt_score(m)}")
                 if self.settings.get("extra_stats", False):
-                    for row in fmt_stat_rows(m):
-                        add(row)
+                    items.append(_table_item(
+                        f"  \t{m['hflag']}{m['home']}\t{m['aflag']}{m['away']}",
+                        muted=True,
+                    ))
+                    items.append(_table_item(
+                        f"  Score\t{m['hscore']}\t{m['ascore']}"
+                    ))
+                    for table_item in stat_table_items(m):
+                        items.append(table_item)
+                else:
+                    add(f"     {fmt_score(m)}")
             sep()
 
         if upcoming:
