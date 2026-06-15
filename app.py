@@ -68,6 +68,7 @@ DEFAULT_SETTINGS = {
     "refresh_seconds":  60,
     "extra_stats":      True,
     "show_locations":   False,
+    "dunder_mifflin":   False,
 }
 
 EXTRA_STATS = [
@@ -406,7 +407,11 @@ class FootballApp(rumps.App):
 
         # Menubar title
         if live:
-            self.title = fmt_score(live[0])
+            if self.settings.get("dunder_mifflin", False):
+                m = live[0]
+                self.title = f"{m['detail']} Emails {m['hscore']}{m['ascore']} Calls"
+            else:
+                self.title = fmt_score(live[0])
         elif upcoming:
             m = upcoming[0]
             self.title = f"{m['hflag']}{m['home']} vs {m['aflag']}{m['away']}"
@@ -516,6 +521,10 @@ class FootballApp(rumps.App):
         locations_item.state = 1 if self.settings.get("show_locations", False) else 0
         settings.add(locations_item)
 
+        dunder_item = rumps.MenuItem("Dunder Mifflin Mode", callback=self._toggle_dunder_mifflin)
+        dunder_item.state = 1 if self.settings.get("dunder_mifflin", False) else 0
+        settings.add(dunder_item)
+
         items.append(settings)
         sep()
         add("Quit", callback=lambda _: rumps.quit_application())
@@ -545,6 +554,13 @@ class FootballApp(rumps.App):
 
     def _toggle_extra_stats(self, sender):
         self.settings["extra_stats"] = not self.settings.get("extra_stats", False)
+        self._save_settings()
+        with self._lock:
+            events = list(self._events)
+        self._redraw(events)
+
+    def _toggle_dunder_mifflin(self, sender):
+        self.settings["dunder_mifflin"] = not self.settings.get("dunder_mifflin", False)
         self._save_settings()
         with self._lock:
             events = list(self._events)
