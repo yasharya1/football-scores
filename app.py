@@ -210,8 +210,12 @@ class FootballApp(rumps.App):
 
     def _write_settings(self, s):
         os.makedirs(os.path.dirname(SETTINGS_PATH), exist_ok=True)
-        with open(SETTINGS_PATH, "w") as f:
+        tmp = SETTINGS_PATH + ".tmp"
+        with open(tmp, "w") as f:
             json.dump(s, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, SETTINGS_PATH)
 
     def _save_settings(self):
         self._write_settings(self.settings)
