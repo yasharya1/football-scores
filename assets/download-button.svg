@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="90" viewBox="0 0 800 90">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00FF85"/>
+      <stop offset="100%" stop-color="#00D084"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Button background -->
+  <rect width="800" height="90" rx="16" fill="url(#bg)"/>
+
+  <!-- Custom download arrow: shaft + head + base line -->
+  <rect x="52" y="18" width="10" height="28" rx="5" fill="#0A1A0A"/>
+  <polygon points="38,42 76,42 57,64" fill="#0A1A0A"/>
+  <rect x="34" y="67" width="44" height="6" rx="3" fill="#0A1A0A"/>
+
+  <!-- Main label -->
+  <text x="430" y="38"
+        font-family="-apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif"
+        font-size="24" font-weight="800" fill="#0A1A0A"
+        text-anchor="middle" letter-spacing="-0.3">
+    Download Topbins for macOS
+  </text>
+
+  <!-- Subtitle -->
+  <text x="430" y="63"
+        font-family="-apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif"
+        font-size="13" font-weight="500" fill="#1A3A1A"
+        text-anchor="middle" letter-spacing="1.2">
+    FREE · NO SIGN-UP · NO API KEY
+  </text>
+</svg>

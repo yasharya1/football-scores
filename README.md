@@ -5,10 +5,8 @@ Live football scores in your macOS menubar. Free, no API key, no subscription.
 <div align="center">
 
 <a href="https://github.com/yasharya1/topbins/releases/latest/download/Topbins.zip">
-  <img src="https://img.shields.io/github/v/release/yasharya1/topbins?label=Download%20Topbins%20for%20macOS&style=for-the-badge&logo=apple&logoColor=white&color=00C851&labelColor=222222" height="50"/>
+  <img src="assets/download-button.svg" width="600"/>
 </a>
-
-*Free · No sign-up · No API key*
 
 </div>
 
