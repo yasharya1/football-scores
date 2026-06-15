@@ -188,7 +188,7 @@ def fmt_stat_rows(m):
     for key, label in EXTRA_STATS:
         hv = m["home_stats"].get(key, "-")
         av = m["away_stats"].get(key, "-")
-        rows.append(f"     {str(hv):>7}  {label:^12}  {str(av):<7}")
+        rows.append(f"     {label:<14}{hv} · {av}")
     return rows
 
 # ─── App ──────────────────────────────────────────────────────────────────────
