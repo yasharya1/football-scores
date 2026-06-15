@@ -409,7 +409,7 @@ class FootballApp(rumps.App):
         if live:
             if self.settings.get("dunder_mifflin", False):
                 m = live[0]
-                self.title = f"{m['detail']} Emails {m['hscore']}{m['ascore']} Calls"
+                self.title = f"{m['detail']} Emails | {m['hscore']}{m['ascore']} Calls"
             else:
                 self.title = fmt_score(live[0])
         elif upcoming:
