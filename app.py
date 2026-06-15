@@ -41,7 +41,7 @@ REFRESH_OPTIONS = [
 SETTINGS_PATH = os.path.expanduser("~/.config/topbins/settings.json")
 
 # Set to True to inject a fake live match for testing extra stats
-DEBUG_MOCK = True
+DEBUG_MOCK = False
 
 MOCK_EVENT = {
     "league": "World Cup",
