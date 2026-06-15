@@ -1,4 +1,4 @@
-# Football Scores
+# Topbins
 
 Live football scores in your macOS menubar. Free, no API key, no subscription.
 
@@ -11,7 +11,7 @@ Live football scores in your macOS menubar. Free, no API key, no subscription.
 
 ## Install (pre-built app)
 
-1. Download `Football Scores.app` from [Releases](../../releases)
+1. Download `Topbins.app` from [Releases](../../releases)
 2. Drag it to `/Applications`
 3. Open it — allow it in System Settings → Privacy & Security if prompted
 4. The ⚽ icon appears in your menubar
@@ -30,7 +30,7 @@ Click the ⚽ icon → **⚙ Settings**
 | Leagues | Toggle any league on/off — only enabled leagues hit the API |
 | Refresh Rate | 15s · 30s · 1 min · 5 min · 10 min |
 
-Settings are saved automatically to `~/.config/football-scores/settings.json`.
+Settings are saved automatically to `~/.config/topbins/settings.json`.
 
 ---
 
@@ -39,8 +39,8 @@ Settings are saved automatically to `~/.config/football-scores/settings.json`.
 **Requirements:** macOS, Python 3.9+
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/football-scores
-cd football-scores
+git clone https://github.com/yasharya1/topbins
+cd topbins
 pip install -r requirements.txt
 python app.py
 ```
@@ -50,7 +50,7 @@ python app.py
 ```bash
 pip install py2app
 python setup.py py2app
-# Output: dist/Football Scores.app
+# Output: dist/Topbins.app
 ```
 
 ---

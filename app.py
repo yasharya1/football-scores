@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Football Scores — macOS menubar app
+Topbins — macOS menubar app
 Data: ESPN public API | No API key required
 """
 
@@ -33,7 +33,7 @@ REFRESH_OPTIONS = [
     (600, "10 minutes"),
 ]
 
-SETTINGS_PATH = os.path.expanduser("~/.config/football-scores/settings.json")
+SETTINGS_PATH = os.path.expanduser("~/.config/topbins/settings.json")
 
 DEFAULT_SETTINGS = {
     "leagues":         {lbl: (lbl == "World Cup") for _, lbl in ALL_LEAGUES},
